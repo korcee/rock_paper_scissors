@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="hu">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Kő, Papír, Olló</title>
+		<link rel="shortcut icon" type="image/jpg" href="rock.svg"/>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,100&family=Roboto+Condensed:wght@100;400&display=swap');
+			body{
+				background-color: #e0e0e0;
+			}
+			.main {
+				margin: 0 auto;
+				max-width: 400px;
+				border-radius: 50px;
+				background: #e0e0e0;
+				box-shadow:  20px 20px 60px #bebebe,
+							-20px -20px 60px #ffffff;
+				text-align: center;
+				padding: 20px;
+				margin-top: 20px;
+			}
+			h1,
+			h2,
+			p,
+			button {
+				font-family: 'Poppins';
+			}
+			button {
+				background-color: black;
+				color: white;
+				border-radius: 5px;
+				border: 0;
+				width: 70px;
+				height: 30px;
+				cursor: pointer;
+			}
+			.buttons {
+				display: flex;
+				flex-direction: row;
+				padding-left: 60px;
+				padding-right: 60px;
+				text-align: center;
+				justify-content: space-between;
+				margin-top: 15px;
+			}
+			button:active{
+				transform: translate(0px, 5px);
+  				-webkit-transform: translate(0px, 5px);
+			}
+			#reset{
+				width: 130px;
+				height: 40px;
+				font-size: 15px;
+				margin-top: 15px;
+			}
+			li {
+				list-style-type: none;
+				font-family: 'Poppins';
+				margin-bottom: 10px;
+			}
+            #result{
+                border: 1px solid #e0e0e0;
+                border-radius: 50px;
+				background: #e0e0e0;
+				box-shadow: inset 5px 5px 10px #d3d3d3,
+							inset -5px -5px 10px #ededed;
+				display: flex;
+				flex-direction: column;
+				margin-top: 15px;
+				height: 196px;
+            }
+			#result h2{
+				text-decoration: underline;
+			}
+			span{
+				font-style: italic;
+			}
+			#footer{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				padding-left: 50px;
+				padding-right: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			<h1>Kő, Papír, Olló</h1>
+			<img src="rockpaper.jpeg" alt="Game" />
+			<div class="buttons">
+				<button onclick="start(event)">kő</button>
+				<button onclick="start(event)">papír</button>
+				<button onclick="start(event)">olló</button>
+			</div>
+			<div id="result">
+				<li>
+					<p><span>Te : ?:</span></p>
+					<p><span>Számítógép : ?:</span></p>
+					<h2>Győztes:</h2>
+				</li>
+			</div>
+			<div id="footer">
+				<p>💻: 0</p>
+				<button id="reset" onclick="reset()">Újrakezdés</button>
+				<p>0 :😎</p>
+			</div>
+		</div>
+	</body>
+	<script>
+		const options = ['kő', 'papír', 'olló'];
+		const cases = [
+			{ player: 'kő', computer: 'kő', winner: 'Döntetlen 😑' },
+			{ player: 'kő', computer: 'papír', winner: 'Computer 💻' },
+			{ player: 'kő', computer: 'olló', winner: 'Te 😎' },
+			{ player: 'papír', computer: 'papír', winner: 'Döntetlen 😑' },
+			{ player: 'papír', computer: 'olló', winner: 'Computer 💻' },
+			{ player: 'papír', computer: 'kő', winner: 'Te 😎' },
+			{ player: 'olló', computer: 'olló', winner: 'Döntetlen 😑' },
+			{ player: 'olló', computer: 'kő', winner: 'Computer 💻' },
+			{ player: 'olló', computer: 'papír', winner: 'Te 😎' },
+		];
+		let yourPoints = 0;
+		let computerPoints = 0;
+		function start(e) {
+			let rand = Math.floor(Math.random() * 3);
+			let player = e.target.textContent;
+			let computer = options[rand];
+			let resultBox = document.getElementById('result');
+			let winner = cases.find((winner) => player == winner.player && computer == winner.computer);
+			resultBox.innerHTML = `<li><p><span>Te : </span>${player}</p><p><span>Számítógép : </span>${computer}</p><h2>Győztes: </h2>${winner.winner}</li>`;
+			if(winner.winner == 'Te 😎'){
+				yourPoints++;
+			}
+			if(winner.winner == 'Computer 💻'){
+				computerPoints++;
+			}
+			let footer = document.getElementById('footer');
+			footer.innerHTML = `<p>💻: ${computerPoints}</p><button id="reset" onclick="reset()">Újrakezdés</button><p>${yourPoints} :😎</p>`;
+			console.log('You: ' + player + ' Computer: ' + computer + ' Winner: ' + winner.winner);
+			console.log('Computer points: '+computerPoints+' Your points: '+yourPoints);
+		}
+		function reset(){
+			yourPoints = 0;
+			computerPoints = 0;
+			document.getElementById('footer').innerHTML = footer.innerHTML = '<p>💻: 0</p><button id="reset" onclick="reset()">Újrakezdés</button><p>0 :😎</p>';
+			document.getElementById('result').innerHTML = '<li><p><span>Te : </span></p><p><span>Számítógép : </span></p><h2>Győztes: </h2></li>';
+		}
+	</script>
+</html>
